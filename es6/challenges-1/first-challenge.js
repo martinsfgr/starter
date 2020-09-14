@@ -20,5 +20,4 @@ class Admin extends User {
 const user = new User('email@email.com', 'senha123');
 const admin = new Admin('email@email.com', 'senha123');
 
-console.log('Primeira Tarefa');
 console.log(user.isAdmin(), admin.isAdmin());
