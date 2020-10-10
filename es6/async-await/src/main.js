@@ -15,5 +15,12 @@ const minhaPromise = () => new Promise((resolve, reject) => {
 })
 
 minhaPromise().then(response => {
-  console.log(response);
+  console.log('Sem async/await', response);
 });
+
+async function executaPromise() {
+  const response = await minhaPromise();
+  console.log('Utilizando async/await', response);
+}
+
+executaPromise();
