@@ -1,8 +1,11 @@
+import api from './api';
+
 class App {
   constructor() {
     this.repositories = [];
     
     this.formEl = document.getElementById('repo-form');
+    this.inputEl = document.querySelector('input[name=repository]');
     this.listEl = document.getElementById('repo-list');
     
     this.registerHandlers();
@@ -12,15 +15,27 @@ class App {
     this.formEl.onsubmit = event => this.addRepository(event);
   }
 
-  addRepository(event) {
+  async addRepository(event) {
     event.preventDefault();
 
+    const repoInput = this.inputEl.value;
+
+    if (repoInput.length === 0) {
+      alert('Procure por algum repositório.')
+    }
+
+    const response = await api.get(`/repos/${repoInput}`);
+
+    const { name, description, html_url, owner: { avatar_url } } = response.data;
+
     this.repositories.push({
-      name: 'Mauricio',
-      description: 'Descrição',
-      avatar_url: 'https://avatars1.githubusercontent.com/u/52453558?s=460&u=cb6dd08efea0250e5067e084e593196ef46869be&v=4',
-      html_url: 'www.google.com',
+      name: name,
+      description: description,
+      avatar_url: avatar_url,
+      html_url: html_url
     });
+
+    this.inputEl.value = '';
 
     this.render();
   }
